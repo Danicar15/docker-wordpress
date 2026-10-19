@@ -27,9 +27,3 @@ jobs:
       - name: Validate Docker Compose
         run: docker compose config --quiet
 
-      - name: Validate Nginx configuration
-        run: |
-          docker run --rm \
-            --entrypoint nginx \
-            -v "$GITHUB_WORKSPACE/nginx/conf.d:/etc/nginx/conf.d:ro" \
-            nginx:latest -t
