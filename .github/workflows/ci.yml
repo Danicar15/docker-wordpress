@@ -30,5 +30,6 @@ jobs:
       - name: Validate Nginx configuration
         run: |
           docker run --rm \
+            --add-host wordpress-web:127.0.0.1 \
             -v "$GITHUB_WORKSPACE/nginx/conf.d:/etc/nginx/conf.d:ro" \
             nginx:latest nginx -t
