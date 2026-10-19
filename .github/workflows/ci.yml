@@ -1,0 +1,34 @@
+
+name: WordPress CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate WordPress Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      - name: Validate Docker Compose
+        run: docker compose config --quiet
+
+      - name: Validate Nginx configuration
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE/nginx/conf.d:/etc/nginx/conf.d:ro" \
+            nginx:latest nginx -t
